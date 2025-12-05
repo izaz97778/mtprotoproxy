@@ -2,7 +2,7 @@ PORT = 443
 
 # name -> secret (32 hex chars)
 USERS = {
-    "tg":  "00000000000000000000000000000001",
+    "tg":  "00000000000000000000000000000005",
     # "tg2": "0123456789abcdef0123456789abcdef",
 }
 
@@ -12,7 +12,7 @@ MODES = {
 
     # Makes the proxy harder to detect
     # Can be incompatible with very old clients
-    "secure": False,
+    "secure": true,
 
     # Makes the proxy even more hard to detect
     # Can be incompatible with old clients
