@@ -1,3 +1,4 @@
+FROM ubuntu:24.04
 # Install Python and dependencies
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
