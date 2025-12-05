@@ -1,14 +1,31 @@
-FROM ubuntu:22.10
+# Use Ubuntu 24.04 LTS (supported)
+FROM ubuntu:24.04
 
-RUN apt-get update && apt-get install --no-install-recommends -y python3 python3-uvloop python3-cryptography python3-socks libcap2-bin ca-certificates && rm -rf /var/lib/apt/lists/*
-RUN setcap cap_net_bind_service=+ep /usr/bin/python3.10
+# Install Python and dependencies
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+        python3 \
+        python3-uvloop \
+        python3-cryptography \
+        python3-socks \
+        libcap2-bin \
+        ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
+# Allow Python to bind to low ports if needed
+RUN setcap cap_net_bind_service=+ep /usr/bin/python3
+
+# Create a non-root user
 RUN useradd tgproxy -u 10000
 
+# Switch to the non-root user
 USER tgproxy
 
+# Set working directory
 WORKDIR /home/tgproxy/
 
-COPY --chown=tgproxy mtprotoproxy.py config.py /home/tgproxy/
+# Copy proxy files with proper ownership
+COPY --chown=tgproxy:tgproxy mtprotoproxy.py config.py /home/tgproxy/
 
+# Run the proxy
 CMD ["python3", "mtprotoproxy.py"]
