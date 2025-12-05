@@ -1,6 +1,3 @@
-# Use Ubuntu 24.04 LTS (supported)
-FROM ubuntu:24.04
-
 # Install Python and dependencies
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
@@ -12,8 +9,8 @@ RUN apt-get update && \
         ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-# Allow Python to bind to low ports if needed
-RUN setcap cap_net_bind_service=+ep /usr/bin/python3
+# Allow Python to bind to low ports
+RUN setcap cap_net_bind_service=+ep $(readlink -f /usr/bin/python3)
 
 # Create a non-root user
 RUN useradd tgproxy -u 10000
